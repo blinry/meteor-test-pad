@@ -6,8 +6,6 @@ import "./main.html"
 
 const Documents = new Mongo.Collection("documents")
 
-Template.body.onCreated(function bodyOnCreated() {})
-
 Template.body.helpers({
     documents() {
         return Documents.find({}, {sort: {name: 1}})
@@ -37,8 +35,9 @@ Template.body.events({
     },
     "click .delete-button"(event) {
         Documents.remove(this._id)
+        Session.set("active", null)
     },
-    "click .doc-button"(event, instance) {
+    "click .doc-button"(event) {
         Session.set("active", this._id)
     },
     "keyup #content"(event) {
